@@ -1,1 +1,27 @@
-loadstring(game:HttpGet("https://api.junkie-development.de/api/v1/luascripts/public/4bcf5bfdd449d27907f57212977a55b133d02c1f4e146d1d7cbeb2e51e123494/download"))()
+--what u looking at 
+local function safeLoad(url)
+    task.spawn(function()
+        local success, result = pcall(function()
+            return game:HttpGet(url)
+        end)
+        if success and result then
+            local func, err = loadstring(result)
+            if func then
+                pcall(func)
+            else
+                warn("Failed to compile: "..tostring(err))
+            end
+        else
+            warn("Failed to load URL: "..tostring(result))
+        end
+    end)
+end
+
+local scripts = {
+    "https://api.junkie-development.de/api/v1/luascripts/public/9c5e4b189406230f8e5602d5f551ad7f64bda7b97a5701c30ed60a358d87cb7b/download",
+    "https://api.junkie-development.de/api/v1/luascripts/public/60d10b10a224c3db682bfd6e3258e89c70c835b48c5408b3fd9ed82e96dbd00b/download",
+}
+
+for _, url in ipairs(scripts) do
+    safeLoad(url)
+end
