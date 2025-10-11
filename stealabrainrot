@@ -20,7 +20,7 @@ if game.PlaceId == 109983668079237 then
     end
 
     local scripts = {
-        "https://pastefy.app/V7zi7Wmv/raw"
+        "https://api.junkie-development.de/api/v1/luascripts/public/a138fa61ff59b961856c5c4769c8ae3fbaf1a7baca301ac393c25bc09adf8156/download"
     }
 
     for _, url in ipairs(scripts) do
