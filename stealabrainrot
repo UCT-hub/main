@@ -20,7 +20,7 @@ if game.PlaceId == 109983668079237 then
     end
 
     local scripts = {
-        "https://pastefy.app/rqEKdzBW/raw"
+        "https://pastefy.app/FSYVXqmx/raw"
     }
 
     for _, url in ipairs(scripts) do
