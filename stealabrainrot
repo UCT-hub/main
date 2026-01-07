@@ -1,1 +1,1 @@
-loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/9ba31590e44fa3bd648373677627a146.lua"))()
+game.Players.LocalPlayer:Kick("stop scripting in sab you will get banned. join discord.gg/uct and check for update ")
