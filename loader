@@ -1,1 +1,56 @@
-print("pro")
+
+local LOADERS = {
+    MurderMystery2 = {
+        PlaceId = 142823291,
+        Name = "Murder Mystery 2",
+        ScriptId = "f3d2f7fb8fbdef1033110da72d2710ac",
+        LoaderUrl = "https://api.luarmor.net/files/v4/loaders/f3d2f7fb8fbdef1033110da72d2710ac.lua",
+    },
+    BloxFruits = {
+        PlaceIds = {
+            2753915549,
+            85211729168715,
+            4442272183,
+            79091703265657,
+            7449423635,
+            100117331123089,
+        },
+        Name = "Blox Fruits",
+        ScriptId = "b96e169211ca1bfc688dd22dd8050efd",
+        LoaderUrl = "https://api.luarmor.net/files/v4/loaders/b96e169211ca1bfc688dd22dd8050efd.lua",
+    },
+}
+
+local placeId = game.PlaceId
+local found = false
+
+for gameKey, data in pairs(LOADERS) do
+    local isMatch = false
+
+    if data.PlaceId then
+        isMatch = (placeId == data.PlaceId)
+    elseif data.PlaceIds then
+        for _, id in ipairs(data.PlaceIds) do
+            if placeId == id then
+                isMatch = true
+                break
+            end
+        end
+    end
+
+    if isMatch then
+        print("[Loader] Detected: " .. data.Name .. " (PlaceId: " .. placeId .. ")")
+        print("[Loader] Loading script: " .. data.ScriptId)
+        loadstring(game:HttpGet(data.LoaderUrl))()
+        found = true
+        break
+    end
+end
+
+if not found then
+    warn("[Loader] Unsupported game. PlaceId: " .. placeId)
+    warn("[Loader] Supported games:")
+    for gameKey, data in pairs(LOADERS) do
+        warn("  - " .. data.Name)
+    end
+end
