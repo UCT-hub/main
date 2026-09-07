@@ -1,1 +1,251 @@
-loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/b96e169211ca1bfc688dd22dd8050efd.lua"))()
+-- loadstring(game:HttpGet("https://api.luarmor.net/files/v4/loaders/b96e169211ca1bfc688dd22dd8050efd.lua"))()
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local LOGO = "rbxassetid://117499463945012"
+local DISCORD = "discord.gg/uct"
+local RED = Color3.fromRGB(220, 20, 20)
+local WHITE = Color3.fromRGB(255, 255, 255)
+local MUTED = Color3.fromRGB(190, 190, 196)
+
+local player = Players.LocalPlayer
+if not player then
+    Players:GetPropertyChangedSignal("LocalPlayer"):Wait()
+    player = Players.LocalPlayer
+end
+
+local parent = (gethui and gethui()) or (cloneref and cloneref(game:GetService("CoreGui"))) or game:GetService("CoreGui")
+if typeof(parent) ~= "Instance" then
+    parent = player:WaitForChild("PlayerGui")
+end
+
+local old = parent:FindFirstChild("RedzDownNotice")
+if old then
+    old:Destroy()
+end
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "RedzDownNotice"
+gui.IgnoreGuiInset = true
+gui.ResetOnSpawn = false
+gui.DisplayOrder = 2147483647
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.Parent = parent
+
+local overlay = Instance.new("Frame")
+overlay.Name = "Overlay"
+overlay.Size = UDim2.fromScale(1, 1)
+overlay.BackgroundColor3 = Color3.fromRGB(6, 6, 8)
+overlay.BackgroundTransparency = 1
+overlay.BorderSizePixel = 0
+overlay.Parent = gui
+
+local dim = Instance.new("Frame")
+dim.Size = UDim2.fromScale(1, 1)
+dim.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+dim.BackgroundTransparency = 1
+dim.BorderSizePixel = 0
+dim.Parent = overlay
+
+local sweep = Instance.new("Frame")
+sweep.AnchorPoint = Vector2.new(0.5, 0.5)
+sweep.Position = UDim2.fromScale(-0.4, 0.5)
+sweep.Size = UDim2.fromScale(0.18, 2)
+sweep.BackgroundColor3 = RED
+sweep.BackgroundTransparency = 0.88
+sweep.BorderSizePixel = 0
+sweep.Rotation = 18
+sweep.Parent = overlay
+
+local sweepGrad = Instance.new("UIGradient")
+sweepGrad.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 1),
+    NumberSequenceKeypoint.new(0.5, 0.35),
+    NumberSequenceKeypoint.new(1, 1),
+})
+sweepGrad.Parent = sweep
+
+local center = Instance.new("Frame")
+center.Name = "Center"
+center.AnchorPoint = Vector2.new(0.5, 0.5)
+center.Position = UDim2.fromScale(0.5, 0.52)
+center.Size = UDim2.fromOffset(520, 420)
+center.BackgroundTransparency = 1
+center.Parent = overlay
+
+local scale = Instance.new("UIScale")
+scale.Scale = 0.86
+scale.Parent = center
+
+local logoWrap = Instance.new("Frame")
+logoWrap.AnchorPoint = Vector2.new(0.5, 0)
+logoWrap.Position = UDim2.new(0.5, 0, 0, 0)
+logoWrap.Size = UDim2.fromOffset(148, 148)
+logoWrap.BackgroundTransparency = 1
+logoWrap.BorderSizePixel = 0
+logoWrap.ClipsDescendants = true
+logoWrap.Parent = center
+
+local wrapCorner = Instance.new("UICorner")
+wrapCorner.CornerRadius = UDim.new(1, 0)
+wrapCorner.Parent = logoWrap
+
+local logo = Instance.new("ImageLabel")
+logo.AnchorPoint = Vector2.new(0.5, 0.5)
+logo.Position = UDim2.fromScale(0.5, 0.5)
+logo.Size = UDim2.fromScale(1.08, 1.08)
+logo.BackgroundTransparency = 1
+logo.Image = LOGO
+logo.ImageColor3 = WHITE
+logo.ImageTransparency = 1
+logo.ScaleType = Enum.ScaleType.Crop
+logo.Parent = logoWrap
+
+local logoCorner = Instance.new("UICorner")
+logoCorner.CornerRadius = UDim.new(1, 0)
+logoCorner.Parent = logo
+
+local title = Instance.new("TextLabel")
+title.AnchorPoint = Vector2.new(0.5, 0)
+title.Position = UDim2.new(0.5, 0, 0, 168)
+title.Size = UDim2.new(1, 0, 0, 44)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.GothamBold
+title.Text = "REDZ IS CURRENTLY DOWN"
+title.TextColor3 = WHITE
+title.TextSize = 28
+title.TextTransparency = 1
+title.TextWrapped = true
+title.Parent = center
+
+local underline = Instance.new("Frame")
+underline.AnchorPoint = Vector2.new(0.5, 0)
+underline.Position = UDim2.new(0.5, 0, 0, 218)
+underline.Size = UDim2.fromOffset(0, 2)
+underline.BackgroundColor3 = RED
+underline.BackgroundTransparency = 1
+underline.BorderSizePixel = 0
+underline.Parent = center
+
+local body = Instance.new("TextLabel")
+body.AnchorPoint = Vector2.new(0.5, 0)
+body.Position = UDim2.new(0.5, 0, 0, 240)
+body.Size = UDim2.new(0.92, 0, 0, 72)
+body.BackgroundTransparency = 1
+body.Font = Enum.Font.Gotham
+body.Text = "Join discord.gg/uct while we fix it."
+body.TextColor3 = MUTED
+body.TextSize = 18
+body.TextTransparency = 1
+body.TextWrapped = true
+body.Parent = center
+
+local copy = Instance.new("TextButton")
+copy.AnchorPoint = Vector2.new(0.5, 0)
+copy.Position = UDim2.new(0.5, 0, 0, 328)
+copy.Size = UDim2.fromOffset(220, 42)
+copy.AutoButtonColor = false
+copy.BackgroundColor3 = RED
+copy.BackgroundTransparency = 1
+copy.Text = "Copy Discord"
+copy.Font = Enum.Font.GothamMedium
+copy.TextColor3 = WHITE
+copy.TextSize = 15
+copy.TextTransparency = 1
+copy.Parent = center
+
+local copyCorner = Instance.new("UICorner")
+copyCorner.CornerRadius = UDim.new(0, 8)
+copyCorner.Parent = copy
+
+local hint = Instance.new("TextLabel")
+hint.AnchorPoint = Vector2.new(0.5, 1)
+hint.Position = UDim2.new(0.5, 0, 1, -28)
+hint.Size = UDim2.new(1, 0, 0, 20)
+hint.BackgroundTransparency = 1
+hint.Font = Enum.Font.Gotham
+hint.Text = "redz Hub  ·  we'll be back shortly"
+hint.TextColor3 = Color3.fromRGB(92, 92, 98)
+hint.TextSize = 13
+hint.TextTransparency = 1
+hint.Parent = overlay
+
+local function tween(inst, info, props)
+    local t = TweenService:Create(inst, info, props)
+    t:Play()
+    return t
+end
+
+local fade = TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+local rise = TweenInfo.new(0.7, Enum.EasingStyle.Quint, Enum.EasingDirection.Out)
+
+tween(overlay, fade, { BackgroundTransparency = 0.04 })
+tween(dim, fade, { BackgroundTransparency = 0.18 })
+tween(scale, rise, { Scale = 1 })
+tween(logo, rise, { ImageTransparency = 0 })
+tween(title, TweenInfo.new(0.7, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, 0, false, 0.08), { TextTransparency = 0 })
+tween(underline, TweenInfo.new(0.65, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, 0, false, 0.12), {
+    BackgroundTransparency = 0,
+    Size = UDim2.fromOffset(168, 2),
+})
+tween(body, TweenInfo.new(0.7, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, 0, false, 0.16), { TextTransparency = 0 })
+tween(copy, TweenInfo.new(0.7, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, 0, false, 0.22), {
+    BackgroundTransparency = 0,
+    TextTransparency = 0,
+})
+tween(hint, TweenInfo.new(0.8, Enum.EasingStyle.Quint, Enum.EasingDirection.Out, 0, false, 0.28), { TextTransparency = 0 })
+
+task.spawn(function()
+    while gui.Parent do
+        sweep.Position = UDim2.fromScale(-0.35, 0.5)
+        local t = tween(sweep, TweenInfo.new(2.4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {
+            Position = UDim2.fromScale(1.35, 0.5),
+        })
+        t.Completed:Wait()
+        task.wait(1.1)
+    end
+end)
+
+task.spawn(function()
+    while gui.Parent do
+        tween(logo, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Size = UDim2.fromScale(1.14, 1.14) }).Completed:Wait()
+        tween(logo, TweenInfo.new(1.2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), { Size = UDim2.fromScale(1.08, 1.08) }).Completed:Wait()
+    end
+end)
+
+copy.MouseEnter:Connect(function()
+    tween(copy, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        BackgroundColor3 = Color3.fromRGB(255, 46, 46),
+    })
+end)
+copy.MouseLeave:Connect(function()
+    tween(copy, TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        BackgroundColor3 = RED,
+    })
+end)
+
+local function copyInvite()
+    if setclipboard then
+        setclipboard(DISCORD)
+    end
+    copy.Text = "Copied"
+    task.delay(1.4, function()
+        if copy and copy.Parent then
+            copy.Text = "Copy Discord"
+        end
+    end)
+end
+
+copy.MouseButton1Click:Connect(copyInvite)
+
+UserInputService.InputBegan:Connect(function(input, processed)
+    if processed then
+        return
+    end
+    if input.KeyCode == Enum.KeyCode.C then
+        copyInvite()
+    end
+end)
+
